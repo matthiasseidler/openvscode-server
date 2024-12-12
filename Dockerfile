@@ -32,9 +32,5 @@ WORKDIR /workspace
 # Expose the port that VSCode Server will run on
 EXPOSE 8080
 
-# Set environment variables for the VSCode Server (password for authentication)
-# Set password via environment variable in Render settings
-# ENV PASSWORD=yourpassword 
-
 # Set the default command to run code-server with password authentication
 CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password"]
