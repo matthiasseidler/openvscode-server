@@ -1,9 +1,8 @@
-# Use a base image that has Python installed
+# Use an official Python image as a base
 FROM python:3.9-slim
 
-# Install dependencies for VSCode server
-RUN apt-get update && \
-    apt-get install -y \
+# Install dependencies required for VSCode Server
+RUN apt-get update && apt-get install -y \
     curl \
     git \
     wget \
@@ -24,18 +23,18 @@ RUN apt-get update && \
     libgtk-3-0 \
     && apt-get clean
 
-# Download and install VSCode Server (https://github.com/coder/code-server)
+# Install code-server (VSCode server)
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
-# Set the working directory for the VSCode Server
+# Set the working directory
 WORKDIR /workspace
 
-# Expose port for the VSCode Server (default 8080)
+# Expose the port that VSCode Server will run on
 EXPOSE 8080
 
-# Set environment variables (optional)
-ENV PASSWORD=yourpassword
-ENV CODE_SERVER_VERSION=latest
+# Set environment variables for the VSCode Server (password for authentication)
+# Set password via environment variable in Render settings
+# ENV PASSWORD=yourpassword 
 
-# Command to run VSCode Server
-CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password", "--password", "${PASSWORD}"]
+# Set the default command to run code-server with password authentication
+CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password"]
