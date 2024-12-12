@@ -26,11 +26,15 @@ RUN apt-get update && apt-get install -y \
 # Install code-server (VSCode server)
 RUN curl -fsSL https://code-server.dev/install.sh | sh
 
+# Create the config directory and set the password
+RUN mkdir -p /root/.config/code-server && \
+    echo "password: ${PASSWORD}" > /root/.config/code-server/config.yaml
+
 # Set the working directory
 WORKDIR /workspace
 
 # Expose the port that VSCode Server will run on
 EXPOSE 8080
 
-# Set the default command to run code-server with password authentication
+# Set the default command to run code-server
 CMD ["code-server", "--bind-addr", "0.0.0.0:8080", "--auth", "password"]
